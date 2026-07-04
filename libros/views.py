@@ -1,7 +1,7 @@
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Libro
-from .forms import LibroForm
+from .models import Libro, Ejemplar
+from .forms import LibroForm, EjemplarForm
 
 
 def lista_libros(request):
@@ -58,3 +58,54 @@ def eliminar_libro(request, libro_id):
     libro.save()
 
     return redirect('lista_libros')
+
+## EJEMPLARES
+
+def lista_ejemplares(request):
+    ejemplares = Ejemplar.objects.all()
+
+    return render(request, 'libros/lista_ejemplares.html', {
+        'ejemplares': ejemplares
+    })
+
+
+def crear_ejemplar(request):
+    if request.method == 'POST':
+        form = EjemplarForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('lista_ejemplares')
+    else:
+        form = EjemplarForm()
+
+    return render(request, 'libros/formulario_ejemplar.html', {
+        'form': form,
+        'titulo': 'Registrar ejemplar'
+    })
+
+
+def editar_ejemplar(request, ejemplar_id):
+    ejemplar = get_object_or_404(Ejemplar, id=ejemplar_id)
+
+    if request.method == 'POST':
+        form = EjemplarForm(request.POST, instance=ejemplar)
+
+        if form.is_valid():
+            form.save()
+            return redirect('lista_ejemplares')
+    else:
+        form = EjemplarForm(instance=ejemplar)
+
+    return render(request, 'libros/formulario_ejemplar.html', {
+        'form': form,
+        'titulo': 'Editar ejemplar'
+    })
+
+
+def eliminar_ejemplar(request, ejemplar_id):
+    ejemplar = get_object_or_404(Ejemplar, id=ejemplar_id)
+    ejemplar.estado = 'BAJA'
+    ejemplar.save()
+
+    return redirect('lista_ejemplares')
