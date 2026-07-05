@@ -7,11 +7,12 @@ from .models import SolicitudPrestamo, Prestamo
 from .forms import SolicitudPrestamoForm, PrestamoForm
 from libros.models import Ejemplar
 
-## Vista para solicitar prestamo
-def solicitar_prestamo(request):
-    if not request.user.is_authenticated:
-        return redirect('/admin/login/?next=/prestamos/solicitar/')
+from django.contrib.auth.decorators import login_required
+from usuarios.decorators import admin_required
 
+## Vista para solicitar prestamo
+@login_required(login_url='login')
+def solicitar_prestamo(request):
     if request.method == 'POST':
         form = SolicitudPrestamoForm(request.POST)
 
@@ -31,6 +32,7 @@ def solicitar_prestamo(request):
     })
 
 ## para que el admin vea las solicitudes de prestamo y pueda aprobarlas o rechazarlas
+@admin_required
 def lista_solicitudes(request):
     solicitudes = SolicitudPrestamo.objects.all().order_by('-fecha_solicitud')
 
@@ -39,6 +41,7 @@ def lista_solicitudes(request):
     })
 
 ### Para que el admin apruebe la solicitud 
+@admin_required
 def aprobar_solicitud(request, solicitud_id):
     solicitud = get_object_or_404(SolicitudPrestamo, id=solicitud_id)
 
@@ -69,6 +72,7 @@ def aprobar_solicitud(request, solicitud_id):
     return redirect('prestamos_activos')
 
 ##Para rechazarla
+@admin_required
 def rechazar_solicitud(request, solicitud_id):
     solicitud = get_object_or_404(SolicitudPrestamo, id=solicitud_id)
 
@@ -78,6 +82,7 @@ def rechazar_solicitud(request, solicitud_id):
     return redirect('lista_solicitudes')
 
 ##Para registrar el prestamo sin necesidad de una solicitud previa
+@admin_required
 def registrar_prestamo(request):
     if request.method == 'POST':
         form = PrestamoForm(request.POST)
@@ -105,6 +110,7 @@ def registrar_prestamo(request):
     })
 
 ##Prestamos activos
+@admin_required
 def prestamos_activos(request):
     prestamos = Prestamo.objects.filter(estado='ACTIVO').order_by('-fecha_prestamo')
 
@@ -113,6 +119,7 @@ def prestamos_activos(request):
     })
 
 ##Registrar devolucion
+@admin_required
 def registrar_devolucion(request, prestamo_id):
     prestamo = get_object_or_404(Prestamo, id=prestamo_id)
 

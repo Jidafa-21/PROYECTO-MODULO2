@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Libro, Ejemplar
 from .forms import LibroForm, EjemplarForm
+from usuarios.decorators import admin_required
 
 
 def lista_libros(request):
@@ -16,7 +17,7 @@ def lista_libros(request):
         'libros': libros
     })
 
-
+@admin_required
 def crear_libro(request):
     if request.method == 'POST':
         form = LibroForm(request.POST)
@@ -32,7 +33,7 @@ def crear_libro(request):
         'titulo': 'Registrar libro'
     })
 
-
+@admin_required
 def editar_libro(request, libro_id):
     libro = get_object_or_404(Libro, id=libro_id)
 
@@ -50,7 +51,7 @@ def editar_libro(request, libro_id):
         'titulo': 'Editar libro'
     })
 
-
+@admin_required
 def eliminar_libro(request, libro_id):
     libro = get_object_or_404(Libro, id=libro_id)
 
@@ -61,6 +62,7 @@ def eliminar_libro(request, libro_id):
 
 ## EJEMPLARES
 
+@admin_required
 def lista_ejemplares(request):
     ejemplares = Ejemplar.objects.all()
 
@@ -68,7 +70,7 @@ def lista_ejemplares(request):
         'ejemplares': ejemplares
     })
 
-
+@admin_required
 def crear_ejemplar(request):
     if request.method == 'POST':
         form = EjemplarForm(request.POST)
@@ -84,7 +86,7 @@ def crear_ejemplar(request):
         'titulo': 'Registrar ejemplar'
     })
 
-
+@admin_required
 def editar_ejemplar(request, ejemplar_id):
     ejemplar = get_object_or_404(Ejemplar, id=ejemplar_id)
 
@@ -102,7 +104,7 @@ def editar_ejemplar(request, ejemplar_id):
         'titulo': 'Editar ejemplar'
     })
 
-
+@admin_required
 def eliminar_ejemplar(request, ejemplar_id):
     ejemplar = get_object_or_404(Ejemplar, id=ejemplar_id)
     ejemplar.estado = 'BAJA'
