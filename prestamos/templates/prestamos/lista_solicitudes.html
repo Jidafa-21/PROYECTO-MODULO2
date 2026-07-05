@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitudes de préstamo</title>
+</head>
+<body>
+
+    <h1>Solicitudes de préstamo</h1>
+
+    <a href="{% url 'solicitar_prestamo' %}">Nueva solicitud</a>
+    |
+    <a href="{% url 'registrar_prestamo' %}">Registrar préstamo directo</a>
+    |
+    <a href="{% url 'prestamos_activos' %}">Ver préstamos activos</a>
+    |
+    <a href="{% url 'lista_libros' %}">Volver a libros</a>
+
+    <hr>
+
+    {% if solicitudes %}
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Libro</th>
+                    <th>Estado</th>
+                    <th>Fecha de solicitud</th>
+                    <th>Observaciones</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for solicitud in solicitudes %}
+                    <tr>
+                        <td>{{ solicitud.usuario.username }}</td>
+                        <td>{{ solicitud.libro.titulo }}</td>
+                        <td>{{ solicitud.estado }}</td>
+                        <td>{{ solicitud.fecha_solicitud }}</td>
+                        <td>{{ solicitud.observaciones }}</td>
+                        <td>
+                            {% if solicitud.estado == 'PENDIENTE' %}
+                                <a href="{% url 'aprobar_solicitud' solicitud.id %}">Aprobar</a>
+                                |
+                                <a href="{% url 'rechazar_solicitud' solicitud.id %}">Rechazar</a>
+                            {% else %}
+                                Sin acciones
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay solicitudes registradas.</p>
+    {% endif %}
+
+</body>
+</html>
