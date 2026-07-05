@@ -1,26 +1,21 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ titulo }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>{{ titulo }}</h1>
+{% block title %}{{ titulo }}{% endblock %}
 
-    <form method="post">
-        {% csrf_token %}
+{% block content %}
 
-        {{ form.as_p }}
+<h2>{{ titulo }}</h2>
 
-        <button type="submit">Enviar solicitud</button>
-    </form>
+<form method="post">
+    {% csrf_token %}
 
-    <br>
+    {{ form.as_p }}
 
-    <a href="{% url 'lista_solicitudes' %}">Ver solicitudes</a>
-    |
-    <a href="{% url 'lista_libros' %}">Volver a libros</a>
+    <button type="submit">Enviar solicitud</button>
+</form>
 
-</body>
-</html>
+<br>
+
+<a href="{% url 'lista_libros' %}">Volver a libros</a>
+
+{% endblock %}

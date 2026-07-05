@@ -1,50 +1,45 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista de ejemplares</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Lista de ejemplares</h1>
+{% block title %}Lista de ejemplares{% endblock %}
 
-    <a href="{% url 'lista_libros' %}">Ver libros</a>
-    |
-    <a href="{% url 'crear_ejemplar' %}">Registrar nuevo ejemplar</a>
+{% block content %}
 
-    <hr>
+<h2>Lista de ejemplares</h2>
 
-    {% if ejemplares %}
-        <table border="1" cellpadding="8">
-            <thead>
+<a href="{% url 'crear_ejemplar' %}">Registrar nuevo ejemplar</a>
+
+<hr>
+
+{% if ejemplares %}
+    <table border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Libro</th>
+                <th>Estado</th>
+                <th>Ubicación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for ejemplar in ejemplares %}
                 <tr>
-                    <th>Código</th>
-                    <th>Libro</th>
-                    <th>Estado</th>
-                    <th>Ubicación</th>
-                    <th>Acciones</th>
+                    <td>{{ ejemplar.codigo_ejemplar }}</td>
+                    <td>{{ ejemplar.libro.titulo }}</td>
+                    <td>{{ ejemplar.estado }}</td>
+                    <td>{{ ejemplar.ubicacion }}</td>
+                    <td>
+                        <a href="{% url 'editar_ejemplar' ejemplar.id %}">Editar</a>
+                        |
+                        <a href="{% url 'eliminar_ejemplar' ejemplar.id %}">Dar de baja</a>
+                    </td>
                 </tr>
-            </thead>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No hay ejemplares registrados.</p>
+{% endif %}
 
-            <tbody>
-                {% for ejemplar in ejemplares %}
-                    <tr>
-                        <td>{{ ejemplar.codigo_ejemplar }}</td>
-                        <td>{{ ejemplar.libro.titulo }}</td>
-                        <td>{{ ejemplar.estado }}</td>
-                        <td>{{ ejemplar.ubicacion }}</td>
-                        <td>
-                            <a href="{% url 'editar_ejemplar' ejemplar.id %}">Editar</a>
-                            |
-                            <a href="{% url 'eliminar_ejemplar' ejemplar.id %}">Dar de baja</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No hay ejemplares registrados.</p>
-    {% endif %}
-
-</body>
-</html>
+{% endblock %}

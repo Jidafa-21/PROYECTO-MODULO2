@@ -1,54 +1,49 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Préstamos activos</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Préstamos activos</h1>
+{% block title %}Préstamos activos{% endblock %}
 
-    <a href="{% url 'registrar_prestamo' %}">Registrar préstamo directo</a>
-    |
-    <a href="{% url 'lista_solicitudes' %}">Ver solicitudes</a>
-    |
-    <a href="{% url 'lista_libros' %}">Volver a libros</a>
+{% block content %}
 
-    <hr>
+<h2>Préstamos activos</h2>
 
-    {% if prestamos %}
-        <table border="1" cellpadding="8">
-            <thead>
+<a href="{% url 'registrar_prestamo' %}">Registrar préstamo directo</a>
+|
+<a href="{% url 'lista_solicitudes' %}">Ver solicitudes</a>
+
+<hr>
+
+{% if prestamos %}
+    <table border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Libro</th>
+                <th>Ejemplar</th>
+                <th>Fecha préstamo</th>
+                <th>Fecha límite</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for prestamo in prestamos %}
                 <tr>
-                    <th>Usuario</th>
-                    <th>Libro</th>
-                    <th>Ejemplar</th>
-                    <th>Fecha préstamo</th>
-                    <th>Fecha límite</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
+                    <td>{{ prestamo.usuario.username }}</td>
+                    <td>{{ prestamo.ejemplar.libro.titulo }}</td>
+                    <td>{{ prestamo.ejemplar.codigo_ejemplar }}</td>
+                    <td>{{ prestamo.fecha_prestamo }}</td>
+                    <td>{{ prestamo.fecha_limite }}</td>
+                    <td>{{ prestamo.estado }}</td>
+                    <td>
+                        <a href="{% url 'registrar_devolucion' prestamo.id %}">Registrar devolución</a>
+                    </td>
                 </tr>
-            </thead>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No hay préstamos activos.</p>
+{% endif %}
 
-            <tbody>
-                {% for prestamo in prestamos %}
-                    <tr>
-                        <td>{{ prestamo.usuario.username }}</td>
-                        <td>{{ prestamo.ejemplar.libro.titulo }}</td>
-                        <td>{{ prestamo.ejemplar.codigo_ejemplar }}</td>
-                        <td>{{ prestamo.fecha_prestamo }}</td>
-                        <td>{{ prestamo.fecha_limite }}</td>
-                        <td>{{ prestamo.estado }}</td>
-                        <td>
-                            <a href="{% url 'registrar_devolucion' prestamo.id %}">Registrar devolución</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No hay préstamos activos.</p>
-    {% endif %}
-
-</body>
-</html>
+{% endblock %}
