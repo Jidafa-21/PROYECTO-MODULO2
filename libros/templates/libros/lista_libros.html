@@ -14,7 +14,7 @@
 <hr>
 
 {% if libros %}
-    <table border="1" cellpadding="8">
+    <table>
         <thead>
             <tr>
                 <th>Título</th>
@@ -29,12 +29,14 @@
         <tbody>
             {% for libro in libros %}
                 <tr>
-                    <td>{{ libro.titulo }}</td>
-                    <td>{{ libro.autor }}</td>
-                    <td>{{ libro.categoria }}</td>
-                    <td>{{ libro.isbn }}</td>
-                    <td>{{ libro.estado }}</td>
-                    <td>
+                    <td data-label="Título">{{ libro.titulo }}</td>
+                    <td data-label="Autor">{{ libro.autor }}</td>
+                    <td data-label="Categoría">{{ libro.categoria }}</td>
+                    <td data-label="ISBN">{{ libro.isbn }}</td>
+                    <td data-label="Estado">
+                        <span class="badge {% if libro.estado == 'ACTIVO' %}badge--ok{% else %}badge--off{% endif %}">{{ libro.estado }}</span>
+                    </td>
+                    <td data-label="Acciones">
                         {% if user.is_authenticated and user.perfilusuario.rol == 'ADMIN' %}
                             <a href="{% url 'editar_libro' libro.id %}">Editar</a>
                             |

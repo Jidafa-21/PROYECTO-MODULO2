@@ -6,18 +6,42 @@
 
 <h2>Mi perfil</h2>
 
-<p><strong>Usuario:</strong> {{ request.user.username }}</p>
-<p><strong>Nombre:</strong> {{ request.user.first_name }} {{ request.user.last_name }}</p>
-<p><strong>Correo:</strong> {{ request.user.email }}</p>
-<p><strong>Teléfono:</strong> {{ perfil.telefono }}</p>
-<p><strong>Dirección:</strong> {{ perfil.direccion }}</p>
-<p><strong>Rol:</strong> {{ perfil.rol }}</p>
-<p><strong>Estado:</strong> {{ perfil.estado }}</p>
+<div class="profile-card">
+    <div class="field">
+        <span class="field-label">Usuario</span>
+        <span class="field-value">{{ request.user.username }}</span>
+    </div>
+    <div class="field">
+        <span class="field-label">Nombre</span>
+        <span class="field-value">{{ request.user.first_name }} {{ request.user.last_name }}</span>
+    </div>
+    <div class="field">
+        <span class="field-label">Correo</span>
+        <span class="field-value">{{ request.user.email }}</span>
+    </div>
+    <div class="field">
+        <span class="field-label">Teléfono</span>
+        <span class="field-value">{{ perfil.telefono }}</span>
+    </div>
+    <div class="field">
+        <span class="field-label">Dirección</span>
+        <span class="field-value">{{ perfil.direccion }}</span>
+    </div>
+    <div class="field">
+        <span class="field-label">Rol</span>
+        <span class="field-value">{{ perfil.rol }}</span>
+    </div>
+    <div class="field">
+        <span class="field-label">Estado</span>
+        <span class="field-value">
+            <span class="badge {% if perfil.estado == 'ACTIVO' %}badge--ok{% else %}badge--off{% endif %}">{{ perfil.estado }}</span>
+        </span>
+    </div>
+</div>
 
-<br>
-
-<a href="{% url 'lista_libros' %}">Volver a libros</a>
-|
-<a href="{% url 'logout' %}">Cerrar sesión</a>
+<div class="action-row" style="margin-top: 1.5rem;">
+    <a href="{% url 'lista_libros' %}">Volver a libros</a>
+    <a href="{% url 'logout' %}">Cerrar sesión</a>
+</div>
 
 {% endblock %}

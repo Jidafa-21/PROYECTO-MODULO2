@@ -6,14 +6,13 @@
 
 <h2>Solicitudes de préstamo</h2>
 
-<a href="{% url 'registrar_prestamo' %}">Registrar préstamo directo</a>
-|
-<a href="{% url 'prestamos_activos' %}">Ver préstamos activos</a>
-
-<hr>
+<div class="action-row">
+    <a href="{% url 'registrar_prestamo' %}">Registrar préstamo directo</a>
+    <a href="{% url 'prestamos_activos' %}">Ver préstamos activos</a>
+</div>
 
 {% if solicitudes %}
-    <table border="1" cellpadding="8">
+    <table>
         <thead>
             <tr>
                 <th>Usuario</th>
@@ -28,12 +27,14 @@
         <tbody>
             {% for solicitud in solicitudes %}
                 <tr>
-                    <td>{{ solicitud.usuario.username }}</td>
-                    <td>{{ solicitud.libro.titulo }}</td>
-                    <td>{{ solicitud.estado }}</td>
-                    <td>{{ solicitud.fecha_solicitud }}</td>
-                    <td>{{ solicitud.observaciones }}</td>
-                    <td>
+                    <td data-label="Usuario">{{ solicitud.usuario.username }}</td>
+                    <td data-label="Libro">{{ solicitud.libro.titulo }}</td>
+                    <td data-label="Estado">
+                        <span class="badge {% if solicitud.estado == 'PENDIENTE' %}badge--pending{% elif solicitud.estado == 'APROBADA' %}badge--ok{% elif solicitud.estado == 'RECHAZADA' %}badge--danger{% else %}badge--off{% endif %}">{{ solicitud.estado }}</span>
+                    </td>
+                    <td data-label="Fecha de solicitud">{{ solicitud.fecha_solicitud }}</td>
+                    <td data-label="Observaciones">{{ solicitud.observaciones }}</td>
+                    <td data-label="Acciones">
                         {% if solicitud.estado == 'PENDIENTE' %}
                             <a href="{% url 'aprobar_solicitud' solicitud.id %}">Aprobar</a>
                             |

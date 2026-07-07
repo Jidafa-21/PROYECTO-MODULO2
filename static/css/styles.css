@@ -1,0 +1,540 @@
+/* ==========================================================================
+   BIBLIOTECA — estilo "ficha de catálogo"
+   Paleta: papel envejecido + verde de estantería + sello de tinta
+   ========================================================================== */
+
+:root {
+  --paper:        #F1E9D8;
+  --paper-2:      #E7DAC0;
+  --paper-3:      #FBF7EC;
+  --ink:          #2B2118;
+  --ink-soft:     #5B4E3D;
+  --forest:       #24463B;
+  --forest-2:     #17302A;
+  --brass:        #A9822C;
+  --brass-light:  #C9A445;
+  --stamp-red:    #8C2F27;
+  --stamp-green:  #3F6B4A;
+  --stamp-amber:  #9C6B18;
+  --stamp-grey:   #6B6255;
+  --line:         #C9BB9C;
+  --shadow:       rgba(43, 33, 24, 0.18);
+
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body:    'Source Serif 4', Georgia, serif;
+  --font-mono:    'Space Mono', 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at top, rgba(255,255,255,0.35), transparent 60%),
+    var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+/* Textura sutil de papel */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.015) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 3px);
+  z-index: 0;
+}
+
+a {
+  color: var(--forest);
+  text-decoration: none;
+  border-bottom: 1px solid var(--brass-light);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+a:hover {
+  color: var(--stamp-red);
+  border-color: var(--stamp-red);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 1.75rem 0;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  color: var(--forest);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.5rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 46px;
+  height: 3px;
+  background: var(--brass);
+  border-radius: 2px;
+}
+
+strong { color: var(--forest-2); }
+
+/* ==========================================================================
+   ENCABEZADO — placa de la biblioteca
+   ========================================================================== */
+
+.site-header {
+  background: var(--forest);
+  background-image: linear-gradient(180deg, var(--forest) 0%, var(--forest-2) 100%);
+  color: var(--paper-3);
+  position: relative;
+  z-index: 1;
+}
+
+.site-header::after {
+  content: "";
+  display: block;
+  height: 6px;
+  background:
+    repeating-linear-gradient(90deg, var(--brass) 0, var(--brass) 8px, transparent 8px, transparent 16px);
+  opacity: 0.9;
+}
+
+.brand-bar {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 1.6rem 1.5rem 1.1rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.brand-mark {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--paper-3);
+  letter-spacing: 0.01em;
+}
+
+.brand-tagline {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+}
+
+/* Navegación tipo pestañas de fichero */
+nav.catalog-nav {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+nav.catalog-nav a {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--paper-3);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  padding: 0.55rem 0.85rem;
+  display: inline-block;
+}
+
+nav.catalog-nav a:hover {
+  background: var(--paper-3);
+  color: var(--forest-2);
+  border-color: var(--paper-3);
+}
+
+.nav-user {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--brass-light);
+  margin-left: auto;
+  padding: 0.55rem 0.4rem;
+}
+
+.nav-admin-wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+}
+
+.nav-admin {
+  background: rgba(0,0,0,0.16);
+  border: 1px dashed rgba(255,255,255,0.28);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
+}
+
+.nav-admin-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  border: none;
+}
+
+.nav-admin a {
+  color: var(--paper-3);
+  font-size: 0.82rem;
+  border-bottom: 1px dotted rgba(255,255,255,0.4);
+}
+
+.nav-admin a:hover { color: var(--brass-light); border-color: var(--brass-light); }
+
+/* ==========================================================================
+   MENSAJES FLASH
+   ========================================================================== */
+
+.flash-stack {
+  max-width: 900px;
+  margin: 1.5rem auto 0;
+  padding: 0 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+.flash {
+  background: var(--paper-3);
+  border-left: 4px solid var(--brass);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.6rem;
+  border-radius: 0 6px 6px 0;
+  box-shadow: 0 2px 6px var(--shadow);
+  font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   CONTENIDO — "página del libro mayor"
+   ========================================================================== */
+
+main {
+  display: block;
+  max-width: 900px;
+  margin: 2rem auto 4rem;
+  padding: 0 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+.ledger-page {
+  background: var(--paper-3);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 2rem 2.25rem;
+  box-shadow: 0 10px 30px var(--shadow);
+  position: relative;
+}
+
+.ledger-page::before {
+  content: "";
+  position: absolute;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  left: 2.6rem;
+  width: 1px;
+  background: rgba(140, 47, 39, 0.15);
+}
+
+/* ==========================================================================
+   FORMULARIOS — ficha de préstamo rellenable
+   ========================================================================== */
+
+form { margin-top: 0.5rem; }
+
+form p {
+  margin: 0 0 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 480px;
+}
+
+form p label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border: none;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="search"],
+select,
+textarea {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 0.55rem 0.7rem;
+  width: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+textarea { min-height: 6rem; resize: vertical; }
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--forest);
+  box-shadow: 0 0 0 3px rgba(36, 70, 59, 0.12);
+  outline: none;
+}
+
+ul.errorlist {
+  list-style: none;
+  margin: 0.2rem 0 0;
+  padding: 0;
+  color: var(--stamp-red);
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+}
+
+button,
+input[type="submit"] {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--paper-3);
+  background: var(--forest);
+  border: none;
+  border-radius: 5px;
+  padding: 0.7rem 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 2px 0 var(--forest-2);
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+button:hover, input[type="submit"]:hover {
+  background: var(--forest-2);
+}
+
+button:active, input[type="submit"]:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+/* Búsqueda inline (formularios GET cortos) */
+form[method="get"] {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  max-width: 480px;
+  margin-bottom: 1.5rem;
+}
+
+form[method="get"] p { margin: 0; flex: 1; }
+
+/* Formulario "de-búsqueda" no necesita el label mono ya que usa placeholder */
+form[method="get"] input[type="text"] { margin: 0; }
+
+/* ==========================================================================
+   TABLAS — libro mayor con filas de renglón
+   ========================================================================== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  margin: 0.5rem 0 1rem;
+}
+
+thead th {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brass);
+  text-align: left;
+  padding: 0.5rem 0.7rem;
+  border-bottom: 2px solid var(--forest);
+}
+
+tbody td {
+  padding: 0.65rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+tbody tr:hover td {
+  background: rgba(169, 130, 44, 0.08);
+}
+
+tbody tr:nth-child(even) td {
+  background: rgba(43, 33, 24, 0.02);
+}
+
+tbody tr:nth-child(even):hover td {
+  background: rgba(169, 130, 44, 0.1);
+}
+
+/* Columnas de código/fecha en mono, como una ficha catalográfica */
+td:has(> .badge) { white-space: nowrap; }
+
+/* ==========================================================================
+   SELLOS DE ESTADO — el elemento distintivo de la página
+   ========================================================================== */
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.6rem;
+  border-radius: 3px;
+  border: 1.5px solid currentColor;
+  transform: rotate(-2deg);
+  background: transparent;
+}
+
+.badge--ok      { color: var(--stamp-green); }
+.badge--pending { color: var(--stamp-amber); }
+.badge--danger  { color: var(--stamp-red); }
+.badge--off     { color: var(--stamp-grey); }
+
+/* ==========================================================================
+   PERFIL — ficha personal
+   ========================================================================== */
+
+.profile-card {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 480px;
+}
+
+.profile-card .field {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 0.75rem;
+  border-bottom: 1px dotted var(--line);
+  padding-bottom: 0.6rem;
+}
+
+.profile-card .field-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.profile-card .field-value {
+  font-family: var(--font-body);
+}
+
+/* ==========================================================================
+   ENLACES DE ACCIÓN / UTILIDAD
+   ========================================================================== */
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.2rem;
+  margin-bottom: 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  .brand-bar { flex-direction: column; gap: 0.15rem; padding-bottom: 0.8rem; }
+  nav.catalog-nav { padding-bottom: 0.5rem; }
+  .nav-user { margin-left: 0; padding-left: 0; }
+  .ledger-page { padding: 1.4rem 1.2rem; }
+  .ledger-page::before { display: none; }
+  table, thead, tbody, th, td, tr { display: block; }
+  thead { display: none; }
+  tbody tr {
+    margin-bottom: 1rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 0.5rem 0.7rem;
+    background: var(--paper-3);
+  }
+  tbody td {
+    border-bottom: none;
+    padding: 0.35rem 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  tbody td::before {
+    content: attr(data-label);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    color: var(--brass);
+    letter-spacing: 0.05em;
+  }
+  .profile-card .field { grid-template-columns: 1fr; gap: 0.2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}

@@ -6,12 +6,12 @@
 
 <h2>Lista de ejemplares</h2>
 
-<a href="{% url 'crear_ejemplar' %}">Registrar nuevo ejemplar</a>
-
-<hr>
+<div class="action-row">
+    <a href="{% url 'crear_ejemplar' %}">Registrar nuevo ejemplar</a>
+</div>
 
 {% if ejemplares %}
-    <table border="1" cellpadding="8">
+    <table>
         <thead>
             <tr>
                 <th>Código</th>
@@ -25,11 +25,13 @@
         <tbody>
             {% for ejemplar in ejemplares %}
                 <tr>
-                    <td>{{ ejemplar.codigo_ejemplar }}</td>
-                    <td>{{ ejemplar.libro.titulo }}</td>
-                    <td>{{ ejemplar.estado }}</td>
-                    <td>{{ ejemplar.ubicacion }}</td>
-                    <td>
+                    <td data-label="Código">{{ ejemplar.codigo_ejemplar }}</td>
+                    <td data-label="Libro">{{ ejemplar.libro.titulo }}</td>
+                    <td data-label="Estado">
+                        <span class="badge {% if ejemplar.estado == 'DISPONIBLE' %}badge--ok{% elif ejemplar.estado == 'PRESTADO' %}badge--pending{% elif ejemplar.estado == 'DAÑADO' %}badge--danger{% else %}badge--off{% endif %}">{{ ejemplar.estado }}</span>
+                    </td>
+                    <td data-label="Ubicación">{{ ejemplar.ubicacion }}</td>
+                    <td data-label="Acciones">
                         <a href="{% url 'editar_ejemplar' ejemplar.id %}">Editar</a>
                         |
                         <a href="{% url 'eliminar_ejemplar' ejemplar.id %}">Dar de baja</a>
